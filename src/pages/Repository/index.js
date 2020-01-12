@@ -1,13 +1,17 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import api from '../../services/api';
 
-export default class Repository extends Component {
-    state = {
-        repository: {},
-        issues: [],
-        loading: true,
-    };
+class Repository extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            repository: {},
+            issues: [],
+            loading: true,
+        };
+    }
 
     async componentDidMount() {
         const { match } = this.props;
@@ -29,6 +33,17 @@ export default class Repository extends Component {
     }
 
     render() {
+        const { repository, issues, loading } = this.state;
         return <h1>Repository</h1>;
     }
 }
+
+Repository.propTypes = {
+    match: PropTypes.shape({
+        params: PropTypes.shape({
+            repository: PropTypes.string,
+        }),
+    }).isRequired,
+};
+
+export default Repository;
