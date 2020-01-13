@@ -8,11 +8,15 @@ import { Form, SubmitButton, List } from './styles';
 import api from '../../services/api';
 
 export default class Main extends Component {
-    state = {
-        newRepo: '',
-        repositories: [],
-        loading: false,
-    };
+    constructor(props) {
+        super(props);
+        this.state = {
+            newRepo: '',
+            repositories: [],
+            loading: false,
+            error: false,
+        };
+    }
 
     componentDidMount() {
         const repositories = localStorage.getItem('repositories');
@@ -34,27 +38,32 @@ export default class Main extends Component {
 
     handleSubmit = async e => {
         e.preventDefault();
-        this.setState({ loading: true });
-        const { newRepo, repositories } = this.state;
-        const response = await api.get(`/repos/${newRepo}`);
-        const data = {
-            name: response.data.full_name,
-        };
-        this.setState({
-            repositories: [...repositories, data],
-            newRepo: '',
-            loading: false,
-        });
+        try {
+            this.setState({ loading: true, error: false });
+            const { newRepo, repositories } = this.state;
+            const response = await api.get(`/repos/${newRepo}`);
+            const data = {
+                name: response.data.full_name,
+            };
+            this.setState({
+                repositories: [...repositories, data],
+                newRepo: '',
+                loading: false,
+            });
+        } catch (error) {
+            this.setState({ loading: false, error: true });
+            console.log(error.response.data.message);
+        }
     };
 
     render() {
-        const { newRepo, loading, repositories } = this.state;
+        const { newRepo, loading, repositories, error } = this.state;
         return (
             <Container>
                 <h1>
                     <FaGithubAlt /> Repositórios
                 </h1>
-                <Form onSubmit={this.handleSubmit}>
+                <Form onSubmit={this.handleSubmit} error={error}>
                     <input
                         type="text"
                         placeholder="Adicionar repositório"
