@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-import { Loading, Owner, IssueList } from './styles';
+import { FaChevronUp, FaChevronDown } from 'react-icons/fa';
+import { Loading, Owner, IssueList, IssueState } from './styles';
 import Container from '../../components/Container';
 
 import api from '../../services/api';
@@ -52,6 +53,17 @@ class Repository extends Component {
                     <h1>{repository.name}</h1>
                     <p>{repository.description}</p>
                 </Owner>
+                <IssueState>
+                    <select>
+                        <option value="all">All</option>
+                        <option value="open">Open</option>
+                        <option value="closed">Closed</option>
+                    </select>
+                    <div id="chevrons">
+                        <FaChevronUp />
+                        <FaChevronDown />
+                    </div>
+                </IssueState>
                 <IssueList>
                     {issues.map(issue => (
                         <li key={String(issue.id)}>
