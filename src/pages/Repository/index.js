@@ -37,6 +37,17 @@ class Repository extends Component {
         });
     }
 
+    handleLoadState = async e => {
+        const { match } = this.props;
+        const repoName = decodeURIComponent(match.params.repository);
+        const response = await api.get(
+            `/repos/${repoName}/issues?state=${e.target.value}`
+        );
+        this.setState({
+            issues: response.data,
+        });
+    };
+
     render() {
         const { repository, issues, loading } = this.state;
         if (loading) {
@@ -54,7 +65,7 @@ class Repository extends Component {
                     <p>{repository.description}</p>
                 </Owner>
                 <IssueState>
-                    <select>
+                    <select onChange={this.handleLoadState}>
                         <option value="all">All</option>
                         <option value="open">Open</option>
                         <option value="closed">Closed</option>
