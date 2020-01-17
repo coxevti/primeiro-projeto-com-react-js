@@ -94,37 +94,46 @@ export const IssueList = styled.ul`
     }
 `;
 
-export const IssueState = styled.div`
+export const IssueFilter = styled.div`
     display: flex;
-    border: 1px solid #ccc;
-    margin: 0 auto;
-    max-width: 180px;
-    padding: 0 10px;
-    margin-top: 30px;
-    border-radius: 4px;
-    select {
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        appearance: none;
-        width: 100%;
-        font-size: 16px;
-        color: #333;
-        background-color: #fff;
-        background-image: none;
-        border: none;
-        word-break: normal;
+    justify-content: center;
+    padding-bottom: 30px;
+    button {
+        border-radius: 4px;
+        outline: 0;
+        border: 0;
+        padding: 8px;
+        margin: 0 0.25rem;
+        &:nth-child(${props => props.active + 1}) {
+            background: #7d3f98;
+            color: white;
+            font-weight: bold;
+        }
     }
-    #chevrons {
-        position: relative;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        width: 12px;
-        padding: 9px 14px 9px 0;
+`;
 
-        display: block;
-        height: 50%;
-        color: #d1dede;
-        font-size: 12px;
+export const PageActions = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 15px;
+    button {
+        background: #7159c1;
+        transition: opacity 0.25s ease-out;
+        border-radius: 4px;
+        outline: 0;
+        border: 0;
+        padding: 8px;
+        &:disabled {
+            opacity: 0.35;
+            cursor: not-allowed;
+        }
+        svg {
+            color: #fff;
+            font-size: 20px;
+        }
+    }
+    button + button {
+        margin-left: 10px;
     }
 `;
